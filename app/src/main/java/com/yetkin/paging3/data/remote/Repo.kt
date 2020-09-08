@@ -11,7 +11,8 @@ Mail : bugrayetkinn@gmail.com
 
  */
 data class Repo(
-    @field:SerializedName("id") val id: Long,
+
+    @field:SerializedName("_id") val _repoId: Long,
     @field:SerializedName("name") val name: String,
     @field:SerializedName("full_name") val fullName: String,
     @field:SerializedName("description") val description: String?,

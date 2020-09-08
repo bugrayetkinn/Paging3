@@ -1,6 +1,6 @@
 package com.yetkin.paging3.module
 
-import com.yetkin.paging3.GithubViewModel
+import com.yetkin.paging3.ui.GithubViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

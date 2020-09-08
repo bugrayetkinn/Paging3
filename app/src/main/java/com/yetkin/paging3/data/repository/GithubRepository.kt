@@ -16,11 +16,13 @@ Mail : bugrayetkinn@gmail.com
 
  */
 
-class GithubRepository(private val githubServiceAPI: GithubServiceAPI) {
+class GithubRepository(
+    private val githubServiceAPI: GithubServiceAPI
+) {
 
     fun getSearch(query: String): Flow<PagingData<Repo>> = Pager(
         PagingConfig(
-            pageSize = 10,
+            pageSize = 10
         )
     ) {
         GithubPagingSource(githubServiceAPI, query)

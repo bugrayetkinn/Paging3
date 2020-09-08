@@ -25,7 +25,7 @@ class GithubPagingSource(
             val repos = response.items
 
             LoadResult.Page(
-                data = response.items,
+                data = repos,
                 prevKey = if (page == 1) null else page - 1,
                 nextKey = if (repos.isEmpty()) null else page + 1
             )

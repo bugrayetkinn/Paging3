@@ -1,8 +1,10 @@
-package com.yetkin.paging3
+package com.yetkin.paging3.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yetkin.paging3.adapter.GithubAdapter
 import com.yetkin.paging3.adapter.ReposLoadStateAdapter
@@ -44,6 +46,16 @@ class MainActivity : AppCompatActivity() {
                 header = ReposLoadStateAdapter { githubAdapter.retry() },
                 footer = ReposLoadStateAdapter { githubAdapter.retry() }
             )
+
+            githubAdapter.addLoadStateListener { loadState ->
+
+                recyclerview.isVisible = loadState.source.refresh is LoadState.NotLoading
+                progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+            }
+            btnRetry.setOnClickListener {
+                githubAdapter.retry()
+            }
         }
     }
 

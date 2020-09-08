@@ -1,4 +1,4 @@
-package com.yetkin.paging3
+package com.yetkin.paging3.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

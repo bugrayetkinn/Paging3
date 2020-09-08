@@ -21,12 +21,11 @@ class App : Application() {
         super.onCreate()
 
         startKoin {
-
             modules(
                 retrofitModule,
                 githubPagingSourceModule,
                 githubViewModelModule,
-                githubRepositoryModule
+                githubRepositoryModule,
             )
         }
     }

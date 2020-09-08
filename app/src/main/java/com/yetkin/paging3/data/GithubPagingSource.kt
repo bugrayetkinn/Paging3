@@ -24,8 +24,8 @@ class GithubPagingSource(
             val response = githubServiceAPI.getData(query, nextPageNumber)
             LoadResult.Page(
                 data = response.items,
-                prevKey = null,
-                nextKey = response.nextPage
+                prevKey = nextPageNumber - 1,
+                nextKey = nextPageNumber + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

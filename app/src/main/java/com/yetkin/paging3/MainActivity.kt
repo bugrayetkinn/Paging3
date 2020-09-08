@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadData() {
 
         lifecycleScope.launch {
-            githubViewModel.flow("Android").collectLatest { pagingData ->
+            githubViewModel.searchRepo("Android").collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
         }

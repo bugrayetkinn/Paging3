@@ -22,10 +22,12 @@ class GithubPagingSource(
         return try {
             val page = params.key ?: 1
             val response = githubServiceAPI.getData(query, page)
+            val repos = response.items
+
             LoadResult.Page(
                 data = response.items,
-                prevKey = null,
-                nextKey = page + 1
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = if (repos.isEmpty()) null else page + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

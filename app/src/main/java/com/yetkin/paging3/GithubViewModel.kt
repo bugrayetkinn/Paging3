@@ -2,13 +2,10 @@ package com.yetkin.paging3
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.yetkin.paging3.data.GithubPagingSource
-import com.yetkin.paging3.data.remote.GithubServiceAPI
 import com.yetkin.paging3.data.remote.Repo
+import com.yetkin.paging3.data.repository.GithubRepository
 import kotlinx.coroutines.flow.Flow
 
 
@@ -20,18 +17,27 @@ Mail : bugrayetkinn@gmail.com
 
  */
 class GithubViewModel(
-    private val githubServiceAPI: GithubServiceAPI,
+    private val githubRepository: GithubRepository,
 ) : ViewModel() {
 
-    fun flow(query: String): Flow<PagingData<Repo>> = Pager(
-        PagingConfig(
-            pageSize = 5,
-            initialLoadSize = 5 * 3,
-            enablePlaceholders = true,
-            prefetchDistance = 5,
-            maxSize = PagingConfig.MAX_SIZE_UNBOUNDED,
-        )
-    ) {
-        GithubPagingSource(githubServiceAPI, query)
-    }.flow.cachedIn(viewModelScope)
+    private var currentQueryValue: String? = null
+    private var currentSearchResult: Flow<PagingData<Repo>>? = null
+
+    fun searchRepo(query: String): Flow<PagingData<Repo>> {
+
+        val lastResult = currentSearchResult
+
+        if (query == currentQueryValue && lastResult != null) {
+            return lastResult
+        }
+
+        currentQueryValue = query
+        val newResult: Flow<PagingData<Repo>> =
+            githubRepository.getSearch(query).cachedIn(viewModelScope)
+
+        currentSearchResult = newResult
+        return newResult
+    }
+
+
 }

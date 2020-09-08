@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val githubViewModel: GithubViewModel by viewModel()
-    private lateinit var adapter: GithubAdapter
+    private lateinit var githubAdapter: GithubAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +38,11 @@ class MainActivity : AppCompatActivity() {
             recyclerview.setHasFixedSize(true)
             recyclerview.layoutManager =
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
-            adapter = GithubAdapter()
-            recyclerview.adapter = adapter
-            recyclerview.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = ReposLoadStateAdapter { adapter.retry() },
-                footer = ReposLoadStateAdapter { adapter.retry() }
+            githubAdapter = GithubAdapter()
+            recyclerview.adapter = githubAdapter
+            recyclerview.adapter = githubAdapter.withLoadStateHeaderAndFooter(
+                header = ReposLoadStateAdapter { githubAdapter.retry() },
+                footer = ReposLoadStateAdapter { githubAdapter.retry() }
             )
         }
     }
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             githubViewModel.searchRepo(query).collectLatest { pagingData ->
-                adapter.submitData(pagingData)
+                githubAdapter.submitData(pagingData)
             }
         }
     }

@@ -20,12 +20,12 @@ class GithubPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Repo> {
 
         return try {
-            val nextPageNumber = params.key ?: 1
-            val response = githubServiceAPI.getData(query, nextPageNumber)
+            val page = params.key ?: 1
+            val response = githubServiceAPI.getData(query, page)
             LoadResult.Page(
                 data = response.items,
-                prevKey = nextPageNumber - 1,
-                nextKey = nextPageNumber + 1
+                prevKey = null,
+                nextKey = page + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

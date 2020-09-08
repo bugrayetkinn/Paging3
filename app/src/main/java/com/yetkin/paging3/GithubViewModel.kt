@@ -24,7 +24,13 @@ class GithubViewModel(
 ) : ViewModel() {
 
     fun flow(query: String): Flow<PagingData<Repo>> = Pager(
-        PagingConfig(pageSize = 20)
+        PagingConfig(
+            pageSize = 5,
+            initialLoadSize = 5 * 3,
+            enablePlaceholders = true,
+            prefetchDistance = 5,
+            maxSize = PagingConfig.MAX_SIZE_UNBOUNDED,
+        )
     ) {
         GithubPagingSource(githubServiceAPI, query)
     }.flow.cachedIn(viewModelScope)
